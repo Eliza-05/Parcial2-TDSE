@@ -7,7 +7,27 @@
 </head>
 <body>
 
+    <h1>Form with Fibonacci con ventana</h1>
+
+    <form>
+        <label for="fibonacciValue">Número:</label><br>
+        <input type="text" id="fibonacciValue" value="5"><br><br>
+        <input type="button" value="Calcular" onclick="calcularfibonacci()">
+    </form>
+    <div id="fibonacciResult"></div>
+
+    <hr>
+
     <script>
+    function calcularfibonacci() {
+        let value = document.getElementById("fibonacciValue").value;
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            document.getElementById("fibonacciResult").innerHTML = this.responseText;
+        }
+        xhttp.open("GET", "/fibwin?value=" + value);
+        xhttp.send();
+    }
 
     </script>
 
