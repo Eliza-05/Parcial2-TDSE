@@ -12,7 +12,8 @@ import java.util.List;
 public class MathController {
 
     @GetMapping("/fibwin")
-    public MathResponse fibonacci(@RequestParam("value") int value) {
-        
+    public MathResponse fibwin(@RequestParam("value") int value) {
 
+
+    }
 }

@@ -18,7 +18,7 @@ public class ProxyController {
     private final String server1 = System.getenv("SERVER1_URL");
     private final String server2 = System.getenv("SERVER2_URL");
 
-
+     private final AtomicInteger counter = new AtomicInteger(0);
 
     private String callServer(String serverUrl, String endpoint, String paramName, String value) {
         try {
@@ -54,5 +54,43 @@ public class ProxyController {
         }
     }
 
-    
+    private String roundRobin(String endpoint, String value) {
+
+        int index = counter.getAndIncrement() % 2;
+
+        String currentServer;
+        String otherServer;
+        String currentName;
+        String otherName;
+
+        if (index == 0) {
+            currentServer = server1;
+            otherServer   = server2;
+            currentName   = "SERVER1";
+            otherName     = "SERVER2";
+        } else {
+            currentServer = server2;
+            otherServer   = server1;
+            currentName   = "SERVER2";
+            otherName     = "SERVER1";
+        }
+
+        String response = callServer(currentServer, endpoint, value);
+        if (response != null) {
+            return currentName + ": " + response;
+        }
+
+        response = callServer(otherServer, endpoint, value);
+        if (response != null) {
+            return otherName + ": " + response;
+        }
+
+        return "Error: ambos servidores están caídos";
+    }
+
+    @GetMapping("/fibwin")
+    public String fibwin(@RequestParam("value") String value) {
+        return roundRobin("/fibwin", value);
+    }
 }
+    
