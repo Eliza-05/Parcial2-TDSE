@@ -54,6 +54,10 @@ public class ProxyController {
         }
     }
 
+    private String callServer(String serverUrl, String endpoint, String value) {
+        return callServer(serverUrl, endpoint, "value", value);
+    }
+
     private String roundRobin(String endpoint, String value) {
 
         int index = counter.getAndIncrement() % 2;
