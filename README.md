@@ -62,8 +62,50 @@ http://3.223.135.231:8080/fibwin?value=10
 
 ![test2](images/test2.png)
 
+
+### Como correrlo en EC2
+Para correr las 3 instancias , primero se debe revisar las ips de cada instancia ya que cada vez que se reinicia el laboratoria en el AWS academy cambian las ips de las instancias, una vez que se revisa esto , lo primero que se debe hacer es en local entrar a la carpeta mathService y poner este comando: mvn clean package, para que genere el jar, y lo mismo pero en la carpeta del proxy.
+
+Una vez hecho esto se genera dentro de target para cada servicio su correspondiente jar, tanto para el mathservice como para el proxy.
+
+Luego desde la carpeta raiz donde se clono el repo se hacen estos comandos
+
+ scp -i "AppServerKey.pem" proxy/target/proxy-0.0.1-SNAPSHOT.jar \
+    ec2-user@3.223.135.231:~/proxy.jar
+
+lo que cambia es las ips de las instancias y la ruta del target en caso de hacerlo tanto para el mathservice o para el proxy, esos comandos se hacen desde local
+
+Luego en las instancias como ya tienen el jar que enviamos desde local, para las 2 instancias del mathservices se pone esto: mathservice.jar y para la instancia del proxy como se menciono anteriormente primero se ponen las urls de los 2 servidores y luego si se ejecuta este comando: proxy.jar .
+
+Luego de esto ya estara corriendo Spring y lo que se debe hacer es poner la url correctamente con la ip de la instancia del proxy y el puerto 8080 , y ya esto mostrara el cliente web, ya que el cliente se puso dentro del mismo proxy
+
+
+### Correccion despligue
+Hice todo el desplige usando jar debido a que no habia leido en el enunciado que debia hacerlo con docker, asi que a continuacin adjunto la evidencia del nuevo despliegue usando docker
+
+![test2](images/DockerEscritorio.png)
+![test2](images/Dockerhub.png)
+![test2](images/Dockermath.png)
+![test2](images/Dockerproxy.png)
+![test2](images/docker1.png)
+![test2](images/docker2.png)
+![test2](images/docker3.png)
+![test2](images/testDocker1.png)
+![test2](images/testDocker2.png)
+
+
+### video corregido, despliegue con docker
+[Ver video en Google Drive](https://drive.google.com/file/d/12KvM7RWoGiGreUWsF0E9utnjbDGBMvzz/view?usp=sharing)
+
+
+
+
+
+
+
+
 ### Algoritmo round-robin
-Para mostrar el funcionamiento de este algoritmo se le agrego a la salida la parte de SERVER1 y SERVER 2 para mostrar directamente en el front con que servidor esta respondiendo cada vez que se recargue la pagina.
+Para mostrar el funcionamiento de este algoritmo se le agrego a la salida la parte de SERVER1 y SERVER 2 para mostrar directamente en el front con que servidor esta respondiendo cada vez que se recargue la pagina, aqui se uso el codigo base dado solo que se hizo con una funcion de callServer pero por dentro.
 
 En el video a continuacion se evidencia el correcto funcionamiento de como intercambia en cada peticion a server1 o a server2
 
